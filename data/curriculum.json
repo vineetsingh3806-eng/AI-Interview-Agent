@@ -1,0 +1,145 @@
+{
+  "cohort": "ABTalks AI Cohort",
+  "days": [
+    {
+      "day": 1,
+      "title": "Python & AI Foundations",
+      "topics": ["Python fundamentals", "Data types", "Functions", "OOP basics", "Jupyter notebooks"],
+      "keyQuestions": [
+        "What is the difference between a list and a tuple in Python?",
+        "Explain object-oriented programming with a real-world example.",
+        "What are generators and when would you use them?"
+      ]
+    },
+    {
+      "day": 2,
+      "title": "Machine Learning Fundamentals",
+      "topics": ["Supervised learning", "Unsupervised learning", "Training vs testing", "Overfitting", "Bias-variance tradeoff"],
+      "keyQuestions": [
+        "Explain the bias-variance tradeoff.",
+        "What is overfitting and how do you prevent it?",
+        "When would you use unsupervised learning?"
+      ]
+    },
+    {
+      "day": 3,
+      "title": "Neural Networks & Deep Learning",
+      "topics": ["Perceptrons", "Backpropagation", "Activation functions", "Gradient descent", "Loss functions"],
+      "keyQuestions": [
+        "How does backpropagation work?",
+        "What is the vanishing gradient problem?",
+        "Compare ReLU vs Sigmoid activation functions."
+      ]
+    },
+    {
+      "day": 4,
+      "title": "Natural Language Processing",
+      "topics": ["Tokenization", "Embeddings", "Word2Vec", "Attention mechanism", "BERT basics"],
+      "keyQuestions": [
+        "What is tokenization and why is it important?",
+        "Explain word embeddings and how they capture semantic meaning.",
+        "What is the attention mechanism?"
+      ]
+    },
+    {
+      "day": 5,
+      "title": "Transformers & LLMs",
+      "topics": ["Transformer architecture", "Self-attention", "Multi-head attention", "Positional encoding", "GPT vs BERT"],
+      "keyQuestions": [
+        "Explain the Transformer architecture.",
+        "What is the difference between GPT and BERT?",
+        "How does self-attention work?"
+      ]
+    },
+    {
+      "day": 6,
+      "title": "Prompt Engineering",
+      "topics": ["Zero-shot prompting", "Few-shot prompting", "Chain-of-thought", "Prompt templates", "System prompts"],
+      "keyQuestions": [
+        "What is chain-of-thought prompting?",
+        "How do you write effective system prompts?",
+        "Explain few-shot vs zero-shot prompting."
+      ]
+    },
+    {
+      "day": 7,
+      "title": "APIs & LLM Integration",
+      "topics": ["OpenAI API", "REST APIs", "Streaming responses", "Token limits", "Rate limiting"],
+      "keyQuestions": [
+        "How do you handle token limits in LLM applications?",
+        "What is streaming and why is it useful?",
+        "How would you design an LLM-powered REST API?"
+      ]
+    },
+    {
+      "day": 8,
+      "title": "LangChain Fundamentals",
+      "topics": ["Chains", "LLMs", "Prompts", "Memory", "Callbacks"],
+      "keyQuestions": [
+        "What is a LangChain chain?",
+        "How does LangChain manage conversation memory?",
+        "Explain the difference between LLMChain and ConversationChain."
+      ]
+    },
+    {
+      "day": 9,
+      "title": "Vector Databases & Embeddings",
+      "topics": ["Vector search", "Similarity search", "Pinecone", "Chroma", "FAISS", "Embedding models"],
+      "keyQuestions": [
+        "What is a vector database and how does it differ from traditional databases?",
+        "Explain cosine similarity vs Euclidean distance.",
+        "When would you choose Pinecone over Chroma?"
+      ]
+    },
+    {
+      "day": 10,
+      "title": "RAG (Retrieval Augmented Generation)",
+      "topics": ["RAG pipeline", "Document chunking", "Retrieval strategies", "Context window", "Hallucination reduction"],
+      "keyQuestions": [
+        "What is RAG and why is it better than fine-tuning for knowledge updates?",
+        "How do you choose chunk size in a RAG pipeline?",
+        "What are common failure modes in RAG systems?"
+      ]
+    },
+    {
+      "day": 11,
+      "title": "LangChain Agents",
+      "topics": ["ReAct agents", "Tool use", "Agent memory", "Agent loops", "Function calling"],
+      "keyQuestions": [
+        "Explain the ReAct agent loop.",
+        "How do LangChain agents use tools?",
+        "What is the difference between an agent and a chain?"
+      ]
+    },
+    {
+      "day": 12,
+      "title": "Fine-tuning LLMs",
+      "topics": ["LoRA", "PEFT", "Instruction tuning", "Dataset preparation", "Evaluation metrics"],
+      "keyQuestions": [
+        "What is LoRA and why is it efficient?",
+        "When should you fine-tune vs use RAG?",
+        "How do you evaluate a fine-tuned model?"
+      ]
+    },
+    {
+      "day": 13,
+      "title": "AI System Design",
+      "topics": ["Scalability", "Latency optimization", "Cost management", "Monitoring", "Error handling"],
+      "keyQuestions": [
+        "Design a production-ready AI chatbot system.",
+        "How would you reduce LLM API costs by 50%?",
+        "How do you monitor AI systems in production?"
+      ]
+    },
+    {
+      "day": 14,
+      "title": "MLOps & Deployment",
+      "topics": ["Model serving", "Docker", "CI/CD for ML", "A/B testing", "Drift detection"],
+      "keyQuestions": [
+        "Explain the ML deployment pipeline.",
+        "What is model drift and how do you detect it?",
+        "How do you A/B test two LLM models?"
+      ]
+    }
+  ]
+}

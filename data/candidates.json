@@ -1,0 +1,47 @@
+[
+  {
+    "id": "candidate-001",
+    "name": "Arjun Mehta",
+    "avatar": "AM",
+    "role": "Software Engineer",
+    "cohort": "ABTalks AI Cohort — Batch 3",
+    "completedDays": [1, 2, 3, 4, 5, 6, 8, 10, 11, 12],
+    "skippedDays": [7, 9],
+    "weakTopics": ["Transformers Architecture", "Fine-tuning", "RAG Pipeline"],
+    "strongTopics": ["Python Fundamentals", "Prompt Engineering", "LangChain Basics", "API Integration"],
+    "confidenceLevel": 68,
+    "overallProgress": 72,
+    "joinedAt": "2024-01-15",
+    "bio": "Software engineer with 2 years of experience. Transitioned to AI/ML domain. Strong Python background. Struggles with deep learning theory but excellent at practical implementation."
+  },
+  {
+    "id": "candidate-002",
+    "name": "Priya Sharma",
+    "avatar": "PS",
+    "role": "Data Analyst",
+    "cohort": "ABTalks AI Cohort — Batch 3",
+    "completedDays": [1, 2, 3, 4, 5, 7, 8, 9],
+    "skippedDays": [6, 10, 11, 12],
+    "weakTopics": ["Vector Databases", "LangChain Agents", "System Design"],
+    "strongTopics": ["Data Analysis", "Statistics", "Python", "Visualization"],
+    "confidenceLevel": 55,
+    "overallProgress": 58,
+    "joinedAt": "2024-01-15",
+    "bio": "Data analyst with strong statistical background. New to AI engineering. Solid fundamentals but limited exposure to production AI systems and advanced architectures."
+  },
+  {
+    "id": "candidate-003",
+    "name": "Rahul Verma",
+    "avatar": "RV",
+    "role": "ML Engineer",
+    "cohort": "ABTalks AI Cohort — Batch 3",
+    "completedDays": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+    "skippedDays": [],
+    "weakTopics": ["Cost Optimization", "MLOps"],
+    "strongTopics": ["Neural Networks", "Transformers", "PyTorch", "Fine-tuning", "RAG", "Vector Databases", "LangChain", "Prompt Engineering"],
+    "confidenceLevel": 88,
+    "overallProgress": 95,
+    "joinedAt": "2024-01-15",
+    "bio": "ML engineer with 4 years of experience. Completed all curriculum days. Deep understanding of AI systems. Ready for senior-level technical challenges and system design questions."
+  }
+]
