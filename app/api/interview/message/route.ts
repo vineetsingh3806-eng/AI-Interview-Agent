@@ -10,6 +10,7 @@ import {
   DEMO_USAGE_COOKIE,
   DEMO_QUESTION_LIMIT,
 } from "@/lib/auth-server";
+import type { InterviewSession } from "@/types";
 
 export async function POST(req: NextRequest) {
   try {
@@ -22,16 +23,37 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let session = loadSession(sessionId);
+    /*
+     * Vercel-safe session handling:
+     *
+     * Prefer the session state sent by the browser.
+     * This avoids depending on Vercel's instance-local /tmp filesystem.
+     */
+    let session: InterviewSession | null = null;
 
-    // On Vercel, /tmp is instance-local. If this request lands on a different
-    // serverless instance than /api/interview/start, seed that instance from
-    // the session state kept in the current browser tab.
-    if (!session && sessionState && typeof sessionState === "object" && sessionState.sessionId === sessionId) {
+    if (
+      sessionState &&
+      typeof sessionState === "object" &&
+      sessionState.sessionId === sessionId
+    ) {
+      session = sessionState as InterviewSession;
+    } else {
+      session = loadSession(sessionId);
+    }
+
+    /*
+     * Best-effort fallback:
+     * If we received browser state, also seed the current instance.
+     */
+    if (session) {
       try {
-        saveSession(sessionState);
-        session = loadSession(sessionId);
-      } catch {}
+        saveSession(session);
+      } catch (error) {
+        console.warn(
+          "[/api/interview/message] Could not persist session:",
+          error
+        );
+      }
     }
 
     if (!session) {
@@ -43,61 +65,125 @@ export async function POST(req: NextRequest) {
 
     if (session.status === "completed") {
       return NextResponse.json(
-        { error: "Interview is already completed", isComplete: true },
+        {
+          error: "Interview is already completed",
+          isComplete: true,
+        },
         { status: 400 }
       );
     }
 
     const cookieStore = await cookies();
-    const user = getUserBySession(cookieStore.get(AUTH_COOKIE_NAME)?.value);
+
+    const user = getUserBySession(
+      cookieStore.get(AUTH_COOKIE_NAME)?.value
+    );
+
     if (!user) {
-      return NextResponse.json({ error: "Authentication required. Please log in or create an account." }, { status: 401 });
+      return NextResponse.json(
+        {
+          error:
+            "Authentication required. Please log in or create an account.",
+        },
+        { status: 401 }
+      );
     }
 
+    /*
+     * Demo users are limited to exactly 3 submitted answers.
+     */
     const currentDemoUsage = user.demo
-      ? getDemoUsageFromCookie(cookieStore.get(DEMO_USAGE_COOKIE)?.value)
+      ? getDemoUsageFromCookie(
+          cookieStore.get(DEMO_USAGE_COOKIE)?.value
+        )
       : 0;
 
-    if (user.demo && currentDemoUsage >= DEMO_QUESTION_LIMIT) {
-      return NextResponse.json({
-        error: `Your ${DEMO_QUESTION_LIMIT}-question demo preview is complete. Please log in or create an account to continue.`,
-        code: "DEMO_LIMIT_REACHED",
-        demoLimitReached: true,
-        demoQuestionsUsed: currentDemoUsage,
-        demoQuestionsRemaining: 0,
-      }, { status: 403 });
+    if (
+      user.demo &&
+      currentDemoUsage >= DEMO_QUESTION_LIMIT
+    ) {
+      return NextResponse.json(
+        {
+          error: `Your ${DEMO_QUESTION_LIMIT}-question demo preview is complete. Please log in or create an account to continue.`,
+          code: "DEMO_LIMIT_REACHED",
+          demoLimitReached: true,
+          demoQuestionsUsed: currentDemoUsage,
+          demoQuestionsRemaining: 0,
+        },
+        { status: 403 }
+      );
     }
 
     const agent = new InterviewAgent();
-    const result = await agent.processAnswer(sessionId, content);
 
-    const nextDemoUsage = user.demo ? currentDemoUsage + 1 : currentDemoUsage;
+    /*
+     * IMPORTANT:
+     * Pass the browser's current session directly to InterviewAgent.
+     * The agent will no longer be forced to reload the session from
+     * Vercel's /tmp filesystem.
+     */
+    const result = await agent.processAnswer(
+      sessionId,
+      content,
+      session
+    );
+
+    const nextDemoUsage = user.demo
+      ? currentDemoUsage + 1
+      : currentDemoUsage;
+
     const demoLimitReached = Boolean(
-      user.demo && nextDemoUsage >= DEMO_QUESTION_LIMIT
+      user.demo &&
+        nextDemoUsage >= DEMO_QUESTION_LIMIT
     );
 
     const response = NextResponse.json({
       evaluation: result.evaluation,
       nextMessage: result.nextMessage,
       isComplete: result.isComplete,
+
+      /*
+       * Frontend should store this updated session state
+       * and send it with the next answer.
+       */
       updatedSession: result.updatedSession,
       sessionState: result.updatedSession,
+
       demoLimitReached,
-      demoQuestionsUsed: user.demo ? nextDemoUsage : undefined,
+
+      demoQuestionsUsed: user.demo
+        ? nextDemoUsage
+        : undefined,
+
       demoQuestionsRemaining: user.demo
-        ? Math.max(0, DEMO_QUESTION_LIMIT - nextDemoUsage)
+        ? Math.max(
+            0,
+            DEMO_QUESTION_LIMIT - nextDemoUsage
+          )
         : undefined,
     });
 
     if (user.demo) {
-      setDemoUsageCookie(response, nextDemoUsage);
+      setDemoUsageCookie(
+        response,
+        nextDemoUsage
+      );
     }
 
     return response;
   } catch (error) {
-    console.error("[/api/interview/message]", error);
+    console.error(
+      "[/api/interview/message]",
+      error
+    );
+
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Internal server error" },
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Internal server error",
+      },
       { status: 500 }
     );
   }
